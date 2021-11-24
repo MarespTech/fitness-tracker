@@ -1,0 +1,68 @@
+<section class="signup-form">
+    <form 
+        fxLayout="column" 
+        fxLayoutAlign="center center" 
+        fxLayoutGap="10px" 
+        #f="ngForm" 
+        (ngSubmit)="onSubmit(f)"
+    >
+        <mat-form-field>
+            <input 
+                ngModel 
+                matInput 
+                required
+                type="email" 
+                placeholder="Your email" 
+                name="email"
+                #emailInput="ngModel"
+            >
+            <mat-error *ngIf="emailInput.hasError('required')">Field must not be empty</mat-error>
+            <mat-error *ngIf="!emailInput.hasError('required')">Email is invalid</mat-error>
+        </mat-form-field>
+        <mat-form-field hintLabel="Should be at least 6 characters long">
+            <input 
+                ngModel 
+                matInput
+                required 
+                type="password" 
+                placeholder="Your password" 
+                name="password"
+                minlength="6"
+                #pwInput="ngModel"
+            >
+            <mat-hint align="end" >{{ pwInput.value?.length }} / 6</mat-hint>
+            <mat-error>Password must have 6 characters</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input 
+                matInput
+                ngModel
+                required
+                [matDatepicker]="picker"
+                placeholder="Your Birthday"
+                [max]="maxDate"
+                name="birthday"
+            />
+            <mat-datepicker-toggle 
+                matSuffix  
+                [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker
+                #picker
+            ></mat-datepicker>
+        </mat-form-field>
+        <mat-checkbox 
+            ngModel    
+            required
+            name="agree"
+            labelPosition="before"
+            color="primary"
+
+        >Agree to Terms and Conditions</mat-checkbox>
+        <button 
+            mat-raised-button 
+            [disabled]="f.invalid"
+            color="primary" 
+            type="submit">Submit</button>
+    </form>
+</section>

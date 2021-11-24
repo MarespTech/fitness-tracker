@@ -1,0 +1,9 @@
+a {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a:hover, a:active {
+    color: lightgray;
+}
