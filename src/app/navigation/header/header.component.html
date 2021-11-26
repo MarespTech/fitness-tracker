@@ -3,12 +3,12 @@
         <mat-icon>menu</mat-icon>
     </button>
     <div>
-        <a routerLink="/">LOGO</a>
+        <a routerLink="/">FitnessTracker</a>
     </div>
     <div fxFlex fxLayout fxLayoutAlign="flex-end" fxLayoutGap="8px" fxHide.xs>
-        <a routerLink="/signup">Sign Up</a>
-        <a routerLink="/login">Login</a>
-        <a routerLink="/training">Training</a>
-        <a>Log out</a>
+        <a routerLink="/signup" *ngIf="!(isAuth$ | async)">Sign Up</a>
+        <a routerLink="/login" *ngIf="!(isAuth$ | async)">Login</a>
+        <a routerLink="/training" *ngIf="isAuth$ | async">Training</a>
+        <a *ngIf="isAuth$ | async" (click)="onLogout()">Log out</a>
     </div>
 </mat-toolbar>

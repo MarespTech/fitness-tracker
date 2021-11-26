@@ -1,9 +1,11 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-
-interface Workout {
-  name: string,
-  value: string
-}
+import { Component, OnInit } from '@angular/core';
+import { TrainingService } from '../training.service';
+import { Exercise } from '../exercise.model';
+import { NgForm } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../app.reducer';
+import * as fromTraining from '../training.reducer';
 
 
 @Component({
@@ -12,21 +14,26 @@ interface Workout {
   styleUrls: ['./new-training.component.css']
 })
 export class NewTrainingComponent implements OnInit {
-  workouts: Workout[] = [
-    {name: "Crunches", value:"crunches"},
-    {name: "Touch Toes", value:"touch-toes"},
-    {name: "Side Lunges", value:"side-lunges"},
-    {name: "Burpees", value:"burpees"},
-  ]
-  @Output() startTraining = new EventEmitter<void>();
+  exercises$?: Observable<Exercise[]>
+  isLoading$?: Observable<boolean>;
 
-  constructor() { }
+  constructor(
+    private trainingService: TrainingService, 
+    private store: Store<fromTraining.State>
+  ) { }
 
   ngOnInit(): void {
+    this.isLoading$ = this.store.select(fromRoot.getIsLoading);
+    this.exercises$ = this.store.select(fromTraining.getAvailableExercises)
+    this.fetchExercises();
   }
 
-  onStartTraining() {
-    this.startTraining.emit();
+  fetchExercises() {
+    this.trainingService.fetchAvailableExercises();
+  }
+  
+  onStartTraining(form: NgForm) {
+    this.trainingService.startExercise(form.value.exercise);
   }
 
 }

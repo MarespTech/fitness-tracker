@@ -46,6 +46,8 @@
             [disabled]="loginForm.invalid"
             color="primary"
             type="submit"
+            *ngIf="!(isLoading$ | async)"
         >Login</button>
+        <mat-spinner *ngIf="isLoading$ | async"></mat-spinner>
     </form>
 </section>

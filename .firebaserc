@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "angular-fitnesstracker-9057e": {
+      "hosting": {
+        "fitness-tracker": [
+          "angular-fitnesstracker-9057e"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "angular-fitnesstracker-9057e"
+  }
+}

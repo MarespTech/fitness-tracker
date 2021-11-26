@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { AuthService } from '../auth.service';
+import { UIService } from '../../shared/ui.service';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../app.reducer';
 
 @Component({
   selector: 'app-signup',
@@ -7,17 +12,25 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-
   maxDate: Date = new Date();
+  isLoading$?: Observable<boolean>;
 
-  constructor() { }
+  constructor(
+    private authService: AuthService, 
+    private uiService: UIService,
+    private store: Store<fromRoot.State>
+  ) { }
 
   ngOnInit(): void {
     this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
+    this.isLoading$ = this.store.select(fromRoot.getIsLoading)
   }
 
   onSubmit(form: NgForm) {
-    console.log(form)
+    this.authService.registerUser({
+      email: form.value.email,
+      password: form.value.password
+    });
   }
 
 }
